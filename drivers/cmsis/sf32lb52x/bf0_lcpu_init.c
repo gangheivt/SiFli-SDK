@@ -135,11 +135,16 @@ void lcpu_disable_rf_cal(uint8_t is_disable)
     g_lcpu_rf_cal_disable = is_disable;
 }
 
+__WEAK __NOINLINE void lcpu_nvds_config()
+{
+}
+
 uint8_t lcpu_power_on(void)
 {
     HAL_HPAON_WakeCore(CORE_ID_LCPU);
     HAL_RCC_Reset_and_Halt_LCPU(0);
 
+    lcpu_nvds_config();
     lcpu_rom_config();
 
     /* LPSYS HCLK cannot exceed 24MHz when loading code */
